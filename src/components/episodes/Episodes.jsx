@@ -37,8 +37,9 @@ const Episodes = () => {
             </div>
             {
                 carts && 
-                carts.map((cart) => (
+                carts.map((cart, indx) => (
                     <Cart 
+                        key={indx}
                         image={cart.img} 
                         catalog={cart.catolog} 
                         episode={cart.episode}

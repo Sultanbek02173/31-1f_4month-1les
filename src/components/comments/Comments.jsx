@@ -1,33 +1,48 @@
+import { useEffect, useState } from 'react';
 import { Comment } from '../../featurs';
+import axios from 'axios';
 import './comments.scss';
 
 const Comments = () => {
-    const comments = [
-        {
-            rating: 4.5,
-            text: 'I can’t recommend this podcast enough',
-            name: 'Betty Lacey'
-        },
-        {
-            rating: 3.7,
-            text: 'I can’t recommend this podcast enough',
-            name: 'Betty Lacey'
-        },
-        {
-            rating: 5,
-            text: 'I can’t recommend this podcast enough',
-            name: 'Betty Lacey'
-        },
-    ]
+
+    const [com, setCom] = useState([]);
+    
+    useEffect(() => {
+        // fetch('http://localhost:5000/comments')
+        // .then((response) => response.json())
+        // .then((data) => {setCom(data)})
+        // .catch((error) => console.log(error));
+
+        fetchComment()
+    }, [])
+
+    const fetchComment = () => {
+        axios.get('http://localhost:5000/comment')
+        .then(({data}) => setCom(data))
+        .catch((error) => console.log(error));
+    }
+
+    console.log(com);
+
+    const deleteComment = (id) => {
+        axios.delete(`http://localhost:5000/comment/${id}`)
+        .then(() => fetchComment())
+        .catch((error) => console.log(error))
+    }
+    
+
     return (
         <div className='comments'>
             {
-                comments && 
-                comments.map(comment => (
+                com && 
+                com.map(comment => (
                     <Comment 
+                        key={comment.id}
+                        id={comment.id}
                         rating={comment.rating} 
                         text={comment.text} 
                         name={comment.name} 
+                        deleteComment={deleteComment}
                     />
                 ))
             }
