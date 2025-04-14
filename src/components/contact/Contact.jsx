@@ -8,7 +8,7 @@ const Contact = () => {
 
     const createComment = (newCom) => {
         axios.post(`http://localhost:5000/comment`, newCom)
-        .then()
+        .then(() => {setNewComment({name: '', text: '', rating: ''})})
         .catch((error) => {console.log(error)})
     }
     return (
